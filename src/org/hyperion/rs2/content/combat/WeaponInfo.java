@@ -63,13 +63,11 @@ public class WeaponInfo {
 		
 		if (playerWeapon != null && isItemTwoHanded(playerWeapon)) {
 			emote = 410;
-			player.getActionSender().sendMessage("used 2h animation");
 		}
 		if (playerShield != null){
 			emote = 403;
-			player.getActionSender().sendMessage("used shield animation");
 		}
-		player.getActionSender().sendMessage("Emote used: " + emote);
+		
 		player.setDefEmote(emote);
 	}
 	
