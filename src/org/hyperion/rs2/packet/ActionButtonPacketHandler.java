@@ -33,7 +33,12 @@ public class ActionButtonPacketHandler implements PacketHandler {
 		}
 		switch(button) {
 		
-		
+		case 150:
+			player.setAutoRetaliating(true);
+			break;
+		case 151:
+			player.setAutoRetaliating(false);
+			break;
 		case 12298:
 		case 2282:
 		case 5860:
@@ -46,7 +51,7 @@ public class ActionButtonPacketHandler implements PacketHandler {
 			player.setFightStyle((byte) 0);
 			WeaponInfo.setAttackEmote(player);
 			break;
-			
+		
 		case 12297:
 		case 2285:
 		case 5862:
