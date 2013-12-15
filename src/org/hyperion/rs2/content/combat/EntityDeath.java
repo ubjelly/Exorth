@@ -18,7 +18,6 @@ import org.hyperion.rs2.model.container.Container.Type;
  *
  */
 public class EntityDeath {
-
 	/**
 	 * Drops items for the player based on their items + Prayers.
 	 * @param p The player dead.
@@ -49,6 +48,7 @@ public class EntityDeath {
 		
 		//get killer
 		Entity killer = p.inflictedMostDamage();
+		System.out.println("killer = " +killer);
 		
 		for(Item i : holder.toArray())
 			if(i != null)
@@ -75,6 +75,8 @@ public class EntityDeath {
 	 * @param n The dead Mob.
 	 */
 	public static void npcDied(NPC n) {
-		
+		Entity killer = n.inflictedMostDamage();
+		System.out.println("killer: " + killer);
+		FloorItemEvent.addFloorItem(new FloorItem(526, 1, n.getLocation(), killer, killer, false));
 	}
 }
