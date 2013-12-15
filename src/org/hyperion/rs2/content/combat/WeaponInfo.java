@@ -57,7 +57,19 @@ public class WeaponInfo {
 	 * @param player
 	 */
 	public static void setDefendEmote(Player player) {
-		int emote = 424;
+		int emote = 404;
+		Item playerWeapon = player.getEquipment().get(Equipment.SLOT_WEAPON);
+		Item playerShield = player.getEquipment().get(Equipment.SLOT_SHIELD);
+		
+		if (playerWeapon != null && isItemTwoHanded(playerWeapon)) {
+			emote = 410;
+			player.getActionSender().sendMessage("used 2h animation");
+		}
+		if (playerShield != null){
+			emote = 403;
+			player.getActionSender().sendMessage("used shield animation");
+		}
+		player.getActionSender().sendMessage("Emote used: " + emote);
 		player.setDefEmote(emote);
 	}
 	
