@@ -3,6 +3,7 @@ package org.hyperion.rs2.content.combat;
 import org.hyperion.rs2.model.Definitions;
 import org.hyperion.rs2.model.Item;
 import org.hyperion.rs2.model.Player;
+import org.hyperion.rs2.model.container.Equipment;
 
 public class WeaponInfo {
 	
@@ -33,7 +34,21 @@ public class WeaponInfo {
 	 * @param player
 	 */
 	public static void setAttackEmote(Player player) {
-		int emote = 806;
+		int emote = -1;
+		Item playerWeapon = player.getEquipment().get(Equipment.SLOT_WEAPON);
+		if (playerWeapon != null){
+			String item = Definitions.forId(playerWeapon.getId()).getName().toLowerCase();
+			
+			if (item.contains("whip")){
+				emote = 1658;
+			}
+			if (item.contains("scimitar")){
+				emote = 451;
+			}
+			
+		} else {
+			emote = 806;
+		}
 		player.setAttackEmote(emote);
 	}
 	
