@@ -1,6 +1,6 @@
 package org.hyperion.rs2.content;
 
-public class Bonus { //testin
+public class Bonus {
 
 	/**
 	 * Attacks.
