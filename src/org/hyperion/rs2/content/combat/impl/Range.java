@@ -183,6 +183,9 @@ public class Range {
 					
 					//Hit.
 					victim.inflictDamage(new Hit(thisHit > victim.getHealth() ? victim.getHealth() : thisHit, thisHit <= 0 ? HitType.NO_DAMAGE : HitType.NORMAL_DAMAGE), atker);
+					if(thisHit > 0)
+						victim.addDmgRecieved(atker, thisHit);
+					
 					
 					/* Handle Agressive NPCs */
 					if(atker instanceof NPC && CombatCheck.isInMultiZone(atker.getLocation())

@@ -129,6 +129,9 @@ public class Melee {
 					//inflict the damage done.
 					victim.inflictDamage(new Hit(dHit > victim.getHealth() ? victim.getHealth() : dHit, dHit <= 0 ? HitType.NO_DAMAGE : HitType.NORMAL_DAMAGE), atker);
 					
+					if(dHit > 0)
+						victim.addDmgRecieved(atker, dHit);
+					
 					/* Handle Agressive NPCs */
 					if(atker instanceof NPC && CombatCheck.isInMultiZone(atker.getLocation())
 							&& atker.getAggressorState())
