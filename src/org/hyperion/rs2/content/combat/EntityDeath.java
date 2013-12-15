@@ -24,7 +24,8 @@ public class EntityDeath {
 	 */
 	public static void playerDied(Player p) {
 		Container holder = new Container(Type.STANDARD, p.getEquipment().size() + p.getInventory().size());
-		
+		//add bones.
+				
 		int save = p.getSkullIcon() != -1 ? 0 : 3;//No Skull | Prayer Support.
 		
 		if(p.getPrayers()[Prayer.PROTECT_ITEM])
@@ -36,25 +37,25 @@ public class EntityDeath {
 		p.getEquipment().clear();
 		
 		for(Item i : p.getInventory().toArray())
-			if(i != null)
+			if(i != null){
 				holder.add(i);
+			}
 		p.getInventory().clear();
 		
 		///Sort Items by alch value.
 		//end
 		
-		//add bones.
-		holder.add(new Item(526));
-		
 		//get killer
 		Entity killer = p.inflictedMostDamage();
-		System.out.println("killer = " +killer);
+		System.out.println("holder: " + holder.size());
 		
-		for(Item i : holder.toArray())
-			if(i != null)
+		for(Item i : holder.toArray()) {
+			if(i != null){
 				FloorItemEvent.addFloorItem(new FloorItem(i.getId(), i.getCount(), p.getLocation(), p, killer instanceof Player && killer != null ? killer : p, false));
-		
+			}
 		holder.clear();//Clear.
+		}
+		FloorItemEvent.addFloorItem(new FloorItem(526, 1, p.getLocation(), p, killer instanceof Player && killer != null ? killer : p, false));
 	}
 	
 	/**
