@@ -3,6 +3,8 @@ package org.hyperion.rs2.packet;
 import org.hyperion.rs2.action.impl.ObjectInteractAction;
 import org.hyperion.rs2.action.impl.WoodcuttingAction;
 import org.hyperion.rs2.action.impl.WoodcuttingAction.Tree;
+import org.hyperion.rs2.action.impl.MiningAction;
+import org.hyperion.rs2.action.impl.MiningAction.Node;
 import org.hyperion.rs2.model.Location;
 import org.hyperion.rs2.model.Player;
 import org.hyperion.rs2.net.Packet;
@@ -46,9 +48,18 @@ public class ObjectOptionPacketHandler implements PacketHandler {
 		 * Woodcutting
 		 */
 		Tree tree = Tree.forId(id);
-		tree.setTreeId(id);
 		if (tree != null && player.getLocation().isWithinInteractionDistance(loc)) {
+			tree.setTreeId(id);
 			player.getActionQueue().addAction(new WoodcuttingAction(player, loc, tree));
+	    }
+		
+		/**
+		 * Mining
+		 */
+		Node node = Node.forId(id);
+		if (node != null && player.getLocation().isWithinInteractionDistance(loc)) {
+			node.setNodeId(id);
+			player.getActionQueue().addAction(new MiningAction(player, loc, node));
 	    }
 	}
 	
@@ -63,6 +74,18 @@ public class ObjectOptionPacketHandler implements PacketHandler {
         int x = packet.getShortA() & 0xFFFF;
         Location loc = Location.create(x, y, player.getLocation().getZ());
         player.getActionQueue().addAction(new ObjectInteractAction(player, id, loc, 2));
+        
+        /**
+		 * Mining Prospecting
+		 */
+		Node node = Node.forId(id);
+		if (node != null && player.getLocation().isWithinInteractionDistance(loc)) {
+			if (node.name().equalsIgnoreCase("clay")) {
+				player.getActionSender().sendMessage("This rock contains " + node.name().toLowerCase() + ".");
+			} else {
+				player.getActionSender().sendMessage("This rock contains " + node.name().toLowerCase() + " ore.");
+			}
+	    }
     }
 
 

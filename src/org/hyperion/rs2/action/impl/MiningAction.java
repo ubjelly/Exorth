@@ -13,7 +13,7 @@ import org.hyperion.rs2.model.Skills;
 /**
  * An action for cutting down trees.
  * @author Graham Edgecombe
- *
+ * @author Stephen
  */
 public class MiningAction extends HarvestingAction {
 	
@@ -137,59 +137,64 @@ public class MiningAction extends HarvestingAction {
 	public static enum Node {
 		
 		/**
+		 * Empty ore.
+		 */
+		EMPTY(0, 0, 1, 0, new short[] { 451 }),
+		
+		/**
 		 * Copper ore.
 		 */
-		COPPER(436, 1, 17.5, new short[] { 2090, 2091 }),
+		COPPER(436, 50, 1, 17.5, new short[] { 2090, 2091 }),
 		
 		/**
 		 * Tin ore.
 		 */
-		TIN(438, 1, 17.5, new short[] { 2094, 2095 }),
+		TIN(438, 5, 1, 17.5, new short[] { 2094, 2095 }),
 		
 		/**
 		 * Blurite ore.
 		 */
-		BLURITE(668, 10, 17.5, new short[] { 2110 }),
+		BLURITE(668, 5, 10, 17.5, new short[] { 2110 }),
 		
 		/**
 		 * Iron ore.
 		 */
-		IRON(440, 15, 35, new short[] { 2092, 2093 }),
+		IRON(440, 5, 15, 35, new short[] { 2092, 2093 }),
 		
 		/**
 		 * Silver ore.
 		 */
-		SILVER(442, 20, 40, new short[] { 2100, 2101 }),
+		SILVER(442, 5, 20, 40, new short[] { 2100, 2101 }),
 		
 		/**
 		 * Gold ore.
 		 */
-		GOLD(444, 40, 65, new short[] { 2098, 2099 }),
+		GOLD(444, 5, 40, 65, new short[] { 2098, 2099 }),
 		
 		/**
 		 * Coal ore.
 		 */
-		COAL(453, 30, 50, new short[] { 2096, 2097 }),
+		COAL(453, 5, 30, 50, new short[] { 2096, 2097 }),
 		
 		/**
 		 * Mithril ore.
 		 */
-		MITHRIL(447, 55, 80, new short[] { 2102, 2103 }),
+		MITHRIL(447, 5, 55, 80, new short[] { 2102, 2103 }),
 		
 		/**
 		 * Adamantite ore.
 		 */
-		ADAMANTITE(449, 70, 95, new short[] { 2104, 2105 }),
+		ADAMANTITE(449, 5, 70, 95, new short[] { 2104, 2105 }),
 		
 		/**
 		 * Rune ore.
 		 */
-		RUNE(451, 85, 125, new short[] { 2106, 2107}),
+		RUNE(451, 5, 85, 125, new short[] { 2106, 2107}),
 		
 		/**
 		 * Clay ore.
 		 */
-		CLAY(434, 1, 5, new short[] { 2108, 2109 });
+		CLAY(434, 5, 1, 5, new short[] { 2108, 2109 });
 		
 		/**
 		 * A map of object ids to nodes.
@@ -202,7 +207,7 @@ public class MiningAction extends HarvestingAction {
 		 * @return The node, or <code>null</code> if the object is not a node.
 		 */
 		public static Node forId(int object) {
-			return nodes.get(object);
+			return nodes.get((short)object);
 		}
 		
 		/**
@@ -227,9 +232,24 @@ public class MiningAction extends HarvestingAction {
 		private byte level;
 		
 		/**
+		 * The id of the node.
+		 */
+		private int nodeId;
+		
+		/**
 		 * The ore this node contains.
 		 */
 		private short ore;
+		
+		/**
+		 * The replacement object of the ore.
+		 */
+		private short oreReplacement;
+		
+		/**
+		 * The amount of time the replacement ore appears after the ore is mined.
+		 */
+		private short oreReplacementTime;
 		
 		/**
 		 * The experience.
@@ -239,15 +259,18 @@ public class MiningAction extends HarvestingAction {
 		/**
 		 * Creates the node.
 		 * @param ore The ore id.
+		 * @param oreReplacementTime The time the replacement ore is visible.
 		 * @param level The required level.
 		 * @param experience The experience per ore.
 		 * @param objects The object ids.
 		 */
-		private Node(int ore, int level, double experience, short[] objects) {
+		private Node(int ore, int oreReplacementTime, int level, double experience, short[] objects) {
 			this.objects = objects;
 			this.level = (byte) level;
 			this.experience = experience;
 			this.ore = (short) ore;
+			this.oreReplacementTime = (short) oreReplacementTime;
+			oreReplacement = (short) 451;
 		}
 		
 		/**
@@ -256,6 +279,22 @@ public class MiningAction extends HarvestingAction {
 		 */
 		public int getOreId() {
 			return ore;
+		}
+		
+		/**
+		 * Gets the replacement ore id.
+		 * @return The replacement ore id.
+		 */
+		public int getReplacementObject() {
+			return oreReplacement;
+		}
+		
+		/**
+		 * Gets the time a stump will appear.
+		 * @return The stump time.
+		 */
+		public int getOreReplacementTime() {
+			return oreReplacementTime;
 		}
 		
 		/**
@@ -282,6 +321,21 @@ public class MiningAction extends HarvestingAction {
 			return experience;
 		}
 		
+		/**
+		 * Gets the node id.
+		 * @return The node id.
+		 */
+		public int getNodeId() {
+			return nodeId;
+		}
+		
+		/**
+		 * Sets the id of the node being mined.
+		 */
+		public void setNodeId(int id) {
+			nodeId = id;
+		}
+		
 	}
 	
 	/**
@@ -295,12 +349,22 @@ public class MiningAction extends HarvestingAction {
 	private double factor = 0.5;
 	
 	/**
-	 * Whether or not this action grants periodic rewards.
+	 * The multiplyer.
 	 */
-	private static final boolean PERIODIC = false;
+	private double multiplyer = 1;
 	
 	/**
-	 * The axe type.
+	 * Whether or not this action requires an object replacement.
+	 */
+	private static final boolean REPLACEMENT = true;
+	
+	/**
+	 * Whether or not this action grants periodic rewards.
+	 */
+	private static final boolean PERIODIC = true;
+	
+	/**
+	 * The pickaxe type.
 	 */
 	private Pickaxe pickaxe;
 	
@@ -315,9 +379,9 @@ public class MiningAction extends HarvestingAction {
 	private Node node;
 
 	/**
-	 * Creates the <code>WoodcuttingAction</code>.
-	 * @param player The player performing the action.#
-	 * @param tree The tree.
+	 * Creates the <code>MiningAction</code>.
+	 * @param player The player performing the action.
+	 * @param node The Node.
 	 */
 	public MiningAction(Player player, Location location, Node node) {
 		super(player, location);
@@ -354,8 +418,15 @@ public class MiningAction extends HarvestingAction {
 			stop();
 			return;
 		}
+		player.getActionSender().sendMessage("Clicked ore: " + node.getNodeId() + " Exhausted ore: " + getReplacementObject());
+		if(node.getNodeId() == getReplacementObject()) {
+			player.getActionSender().sendMessage("This rock's resources have been exhausted.");
+			stop();
+			return;
+		}
 		player.getActionSender().sendMessage("You swing your pick at the rock...");
 		cycleCount = calculateCycles(player, node, pickaxe);
+		factor = factor * factorBoost(player, pickaxe);
 		
 	}
 
@@ -363,6 +434,7 @@ public class MiningAction extends HarvestingAction {
 	/**
 	 * Attempts to calculate the number of cycles to mine the ore based on mining level, ore level and axe speed modifier.
 	 * Needs heavy work. It's only an approximation.
+	 * Scrapped system for now.
 	 */
 	public int calculateCycles(Player player, Node node, Pickaxe pickaxe) {
 		final int mining = player.getSkills().getLevel(Skills.MINING);
@@ -371,11 +443,34 @@ public class MiningAction extends HarvestingAction {
 		final int random = new Random().nextInt(3);
 		double cycleCount = 1;
 		cycleCount = Math.ceil((difficulty * 60 - mining * 20) / modifier * 0.25 - random * 4);
+		//player.getActionSender().sendMessage("Cycle count: " + ((difficulty * 60 - mining * 20) / modifier * 0.25 - random * 4));
 		if(cycleCount < 1) {
 			cycleCount = 1;
 		}
 		//player.getActionSender().sendMessage("You must wait " + cycleCount + " cycles to mine this ore.");
-		return (int) cycleCount;
+		return new Random().nextInt(5) + 7;
+	}
+	
+	/**
+	 * Attempts to calculate the mining success rate based on mining level and the player's pickaxe.
+	 * @param player The player performing the action.
+	 * @param pickaxe The pickaxe the player is using.
+	 */
+	public double factorBoost(Player player, Pickaxe pickaxe) {
+		final int miningLevel = player.getSkills().getLevel(Skills.MINING)/1000;
+		if(pickaxe == pickaxe.BRONZE)
+			multiplyer = 1;
+		if (pickaxe == pickaxe.IRON)
+			multiplyer =  .95;
+		if(pickaxe == pickaxe.STEEL)
+			multiplyer = .90;
+		if (pickaxe == pickaxe.MITHRIL)
+			multiplyer = .80;
+		if (pickaxe == pickaxe.ADAMANT)
+			multiplyer = .70;
+		if (pickaxe == pickaxe.RUNE)
+			multiplyer = .60;
+		return multiplyer - miningLevel;
 	}
 	
 	
@@ -411,26 +506,22 @@ public class MiningAction extends HarvestingAction {
 
 	@Override
 	public int getReplacementObject() {
-		// TODO Auto-generated method stub
-		return 0;
+		return node.oreReplacement;
 	}
 
 	@Override
 	public boolean requiresReplacementObject() {
-		// TODO Auto-generated method stub
-		return false;
+		return REPLACEMENT;
 	}
 
 	@Override
 	public int getObjectId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return node.getNodeId();
 	}
 
 	@Override
 	public int getRespawnTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return node.oreReplacementTime;
 	}
 
 }

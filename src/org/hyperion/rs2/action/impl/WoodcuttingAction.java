@@ -13,6 +13,7 @@ import org.hyperion.rs2.model.Skills;
 /**
  * An action for cutting down trees.
  * @author Graham Edgecombe
+ * @author Stephen
  *
  *TODO - 
  * Cut tree faster based on axe and level
@@ -245,7 +246,7 @@ public class WoodcuttingAction extends HarvestingAction {
 		private short stump;
 		
 		/**
-		 * The time the stump appears after the tree is cut down.
+		 * The amount of time the stump appears after the tree is cut down.
 		 */
 		private short stumpTime;
 		

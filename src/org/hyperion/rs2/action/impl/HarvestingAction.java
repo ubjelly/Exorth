@@ -163,7 +163,8 @@ public abstract class HarvestingAction extends Action {
 			cycles--;
 			Item item = getHarvestedItem();
 			if(player.getInventory().hasRoomFor(item)) {
-				if(totalCycles == 1 || Math.random() > getFactor()) {
+				double random = Math.random();
+				if(totalCycles == 1 || random > getFactor()) {
 					if(getPeriodicRewards() ) {
 						giveRewards(player, item);
 					}
