@@ -1,8 +1,8 @@
 package org.hyperion.rs2.packet;
 
 import org.hyperion.rs2.action.impl.ObjectInteractAction;
-/*import org.hyperion.rs2.action.impl.WoodcuttingAction;
-import org.hyperion.rs2.action.impl.WoodcuttingAction.Tree;*/
+import org.hyperion.rs2.action.impl.WoodcuttingAction;
+import org.hyperion.rs2.action.impl.WoodcuttingAction.Tree;
 import org.hyperion.rs2.model.Location;
 import org.hyperion.rs2.model.Player;
 import org.hyperion.rs2.net.Packet;
@@ -45,11 +45,11 @@ public class ObjectOptionPacketHandler implements PacketHandler {
 		/**
 		 * Woodcutting
 		 */
-		/*Tree tree = Tree.forId(id);
+		Tree tree = Tree.forId(id);
 		tree.setTreeId(id);
 		if (tree != null && player.getLocation().isWithinInteractionDistance(loc)) {
 			player.getActionQueue().addAction(new WoodcuttingAction(player, loc, tree));
-	    }*/
+	    }
 	}
 	
     /**
