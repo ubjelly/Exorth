@@ -50,6 +50,7 @@ public class DeathTick extends Tick {
 				World.getWorld().unregister(n);
 			else
 				n.applyHealthChange(((NPC)entity).getDefinition().getMaxHealth(), true);
+			EntityDeath.npcDied(n);
 			entity.setLocation(n.getOrigin());
 			entity.setTeleportTarget(n.getOrigin());
 		}
