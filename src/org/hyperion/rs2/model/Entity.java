@@ -1,5 +1,6 @@
 package org.hyperion.rs2.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -744,17 +745,16 @@ public abstract class Entity {
 	 * @return Entity duh.
 	 */
 	public Entity inflictedMostDamage() {
-		Entity highestHitter = null;
-		int highestHit = -1;
-		for (Map.Entry<Entity, Integer> entry : dmgRecieved.entrySet()) {
-			if(entry.getKey() instanceof Player && !((Player)entry.getKey()).getSession().isConnected()
-				|| entry.getKey().isDead() && entry.getKey() instanceof NPC)
-				continue;
-			if (entry.getValue() > highestHit) {
-				highestHitter = entry.getKey();
+		Entity winner = null;
+		int highestHitter=(Collections.max(dmgRecieved.values()));
+		for(Map.Entry<Entity, Integer> entry : dmgRecieved.entrySet()) {
+			if (entry.getValue()==highestHitter) {
+				winner = entry.getKey();
+				//System.out.println("Winner: " + entry.getValue());
 			}
+			//System.out.println("Killers: " + killers.entrySet());
 		}
-		return highestHitter;
+		return winner;
 	}
 
 	/**
