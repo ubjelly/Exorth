@@ -477,7 +477,6 @@ public abstract class Entity {
 	 */
 	public void setTeleportTarget(Location teleportTarget) {
 		this.teleportTarget = teleportTarget;
-		//this.setTeleporting(true);
 	}
 	
 	/**
@@ -620,12 +619,15 @@ public abstract class Entity {
 			}
 		}
 		//Retaliating.
+		System.out.println("autoretaliating = " + this.isAutoRetaliating);
 		if(this instanceof Player && this.isAutoRetaliating && source != null && this.getLastAttacked() == null
 				|| this instanceof NPC && this.getLastAttacked() == null && source != null) {
 			this.setLastAttack(2);
 			this.setLastAttacked(source);
 			this.setCurrentTarget(source);
+			this.setInteractingEntity(source);
 		}
+		
 		if(inc.getDamage() <= -1) return;
 		//Degrade Check.
 		if(this instanceof Player)

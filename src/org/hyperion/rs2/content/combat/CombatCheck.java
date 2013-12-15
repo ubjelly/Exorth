@@ -41,7 +41,8 @@ public class CombatCheck {
 		}
 		if(e instanceof Player && ot instanceof Player) {
 			if(isInWilderness(e.getLocation()) && !isInWilderness(ot.getLocation())//Wilderness Check.
-					|| !isInWilderness(e.getLocation()) && isInWilderness(ot.getLocation())) {
+					|| !isInWilderness(e.getLocation()) && isInWilderness(ot.getLocation())
+					|| !isInWilderness(e.getLocation()) && !isInWilderness(ot.getLocation())) {
 				((Player)e).getActionSender().sendMessage("You can only attack other players in the wilderness.");
 				return false;
 			}
@@ -89,8 +90,8 @@ public class CombatCheck {
 	 */
 	public static boolean isInWilderness(Location loc) {
 		return 
-		loc.getX() >= 2949 && loc.getX() <= 3400 && loc.getY() >= 3525 && loc.getY() <= 4462 && loc.getZ() == 0 
-			|| Constants.PVP_WORLD;
+		loc.getX() >= 2949 && loc.getX() <= 3400 && loc.getY() >= 3525 && loc.getY() <= 4462 && loc.getZ() == 0; 
+			/*|| Constants.PVP_WORLD;*/
 	}
 	
 	/**
