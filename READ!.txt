@@ -1,0 +1,35 @@
+Final Revision:
+*Player Hitpoints Fix
+*Item Definition speeds fixed.
+*Throwing Projectiles handled.
+*Mob Spawning System added.
+*Range success formula changed.
+*Offline account checking (If not connected to loginServer)
+*Projectile variable 'Radius' Change to offset and handled.
+*Adjusted range projectiles.
+*Range ammo now dropped apon shot.
+*Ground Items now support stacking.
+*Random method fixed.
+*Trade bug fixed.
+*Private messaging login was corrected. (Was 1 simple variable).
+*Friend removing was handled.
+*Projectiles now change speeds based on distance.
+*The biggest hitter (Most damage) Now skips players not on the server.
+*Various other changes of which i can't remember.
+
+Bug Fix Batch #1
+*Projectiles & Projectile timers have been adjusted.
+*NPC Respawning added.
+*Stat and Weapon Special Restoring added.
+*NPC Location fix.
+*Distance checking based on attack style for range.
+*Project packet corrected.
+
+If you would like to contribute write a tutorial or snippet for content or fixes and message me or post it on
+the thread. I will add it to the list, as well as update the source if it's a bug fix for a feature that was included
+in the server release.
+
+~~~~~~To add NPC Defs, simply use the tool in the tools folder.~~~~~
+
+Thank you,
+Bando
