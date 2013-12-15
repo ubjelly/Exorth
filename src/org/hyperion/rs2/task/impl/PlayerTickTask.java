@@ -60,6 +60,12 @@ public class PlayerTickTask implements Task {
 			player.setAbstractMagicDelay(player.getAbstractMagicDelay() - 1);
 		
 		/*
+		 * Bone Burying Delay.
+		 */
+		if(player.getBoneTimer() > 0)
+			player.setBoneTimer((byte) (player.getBoneTimer() - 1));
+		
+		/*
 		 * Food Delay.
 		 */
 		if(player.getFoodTimer() > 0)

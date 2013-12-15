@@ -294,9 +294,9 @@ public class Player extends Entity implements Persistable {
 	private byte headIcon = -1, skullIcon = -1;
 	
 	/**
-	 * EatingTimer and PotionTimer.
+	 * EatingTimer, PotionTimer, and BoneTimer.
 	 */
-	private byte foodTimer, potionTimer;
+	private byte foodTimer, potionTimer, boneTimer;
 	
 	/**
 	 * Emotes.
@@ -984,6 +984,20 @@ public class Player extends Entity implements Persistable {
 		return updateTask;
 	}
 
+	/**
+	 * @param boneTimer the boneTimer to set
+	 */
+	public void setBoneTimer(byte boneTimer) {
+		this.boneTimer = boneTimer;
+	}
+
+	/**
+	 * @return the boneTimer
+	 */
+	public byte getBoneTimer() {
+		return boneTimer;
+	}
+	
 	/**
 	 * @param foodTimer the foodTimer to set
 	 */
