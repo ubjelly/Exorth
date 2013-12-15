@@ -13,6 +13,8 @@ import org.hyperion.rs2.model.Skills;
  * @author Stephen
  */
 
+// created this class to eat a shitload of bananas???
+
 public class BoneBurying {
 
 	enum Bone {
