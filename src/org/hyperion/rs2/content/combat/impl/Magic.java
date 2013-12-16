@@ -237,6 +237,7 @@ public class Magic {
 		}
 		//Opponent distribution
 		if(k instanceof Player) {
+			System.out.println("incoming hit");
 			Player d = (Player)k;
 			int defLv = d.getSkills().getLevel(Skills.DEFENCE);
 			int mageLv = d.getSkills().getLevel(Skills.MAGIC);

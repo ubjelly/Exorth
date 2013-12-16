@@ -371,7 +371,6 @@ public class Skills {
 					message1);
 			player.getActionSender().sendString((messages.getFrame() + 2),
 					message2);
-			System.out.println("test");
 		}
 		player.getActionSender().sendChatInterface(messages.getFrame());
 	}

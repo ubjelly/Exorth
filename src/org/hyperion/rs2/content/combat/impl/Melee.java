@@ -175,7 +175,7 @@ public class Melee {
 			atk = (int) (effectiveAccuracy * (1 + bonus/64)) * 10;
 		}
 		if(o instanceof Player) {
-			Player p = (Player)e;
+			Player p = (Player)o;
 			int effectiveDefence = p.getSkills().getLevel(Skills.DEFENCE);
 			double boost = 1.00;
 			if(p.getPrayers()[Prayer.CLARITY_OF_THOUGHT])

@@ -4,13 +4,13 @@
 		<defAnim>404</defAnim>
 		<atts>
 			<style>
-				<styleType>2</styleType>
-				<max>8</max>
-				<anim>711</anim>
+				<styleType>0</styleType>
+				<max>1</max>
+				<anim>422</anim>
 				<gfx>
-					<short>93</short>
-					<short>94</short>
-					<short>95</short>
+					<short>-1</short>
+					<short>-1</short>
+					<short>-1</short>
 				</gfx>
 				<speed>5</speed>
 			</style>
