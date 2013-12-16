@@ -46,8 +46,8 @@ public class WieldPacketHandler implements PacketHandler {
 						int slotToRemove = type.getSlot() == Equipment.SLOT_WEAPON ? Equipment.SLOT_SHIELD : Equipment.SLOT_WEAPON;
 						if(player.getEquipment().get(slotToRemove) != null) {
 							if(player.getInventory().freeSlots() > 1) {
-								player.getEquipment().set(slotToRemove, null);
 								player.getInventory().add(player.getEquipment().get(slotToRemove));
+								player.getEquipment().set(slotToRemove, null);
 							} else {
 								player.getActionSender().sendMessage("You do not have enough room in your inventory.");
 								return;
