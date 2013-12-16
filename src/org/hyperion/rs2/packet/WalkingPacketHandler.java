@@ -16,7 +16,7 @@ public class WalkingPacketHandler implements PacketHandler {
 		if(packet.getOpcode() == 248) {
 		    size -= 14;
 		}
-
+		player.getActionSender().sendCloseInterface();
 		player.getWalkingQueue().reset();
 		if(player.getActionQueue().hasAction())
 			player.getActionQueue().cancelQueuedActions();

@@ -47,7 +47,6 @@ public class EntityDeath {
 		
 		//get killer
 		Entity killer = p.inflictedMostDamage();
-		System.out.println("holder: " + holder.size());
 		
 		for(Item i : holder.toArray()) {
 			if(i != null){
@@ -77,7 +76,6 @@ public class EntityDeath {
 	 */
 	public static void npcDied(NPC n) {
 		Entity killer = n.inflictedMostDamage();
-		System.out.println("killer: " + killer);
 		FloorItemEvent.addFloorItem(new FloorItem(526, 1, n.getLocation(), killer, killer, false));
 	}
 }

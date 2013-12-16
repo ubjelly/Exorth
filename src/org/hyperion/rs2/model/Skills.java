@@ -2,6 +2,7 @@ package org.hyperion.rs2.model;
 
 import org.hyperion.rs2.Constants;
 import org.hyperion.rs2.model.UpdateFlags.UpdateFlag;
+import org.hyperion.rs2.util.NameUtils;
 
 /**
  * Represents a player's skill and experience levels.
@@ -283,9 +284,99 @@ public class Skills {
 		int levelDiff = newLevel - oldLevel;
 		if(levelDiff > 0) {
 			levels[skill] += levelDiff;
+			sendLevelUpMessage(player, skill);
 		}
 		player.getUpdateFlags().flag(UpdateFlag.APPEARANCE);
 		player.getActionSender().sendSkill(skill);
 	}
 
+	
+	public enum StatMessages {
+		ATTACK(6247),
+		DEFENCE(6253),
+		STRENGTH(6206),
+		HITPOINTS(6216),
+		RANGED(5453, 6114, 4443),
+		PRAYER(6242),
+		MAGIC(6211),
+		COOKING(6226),
+		WOODCUTTING(4272),
+		FLETCHING(6231),
+		FISHING(6258),
+		FIREMAKING(4282),
+		CRAFTING(6263),
+		SMITHING(6221),
+		MINING(4417, 4438, 4416),
+		HERBLORE(6237),
+		AGILITY(4277),
+		THIEVING(4263, 4264, 4261),
+		SLAYER(12122),
+		FARMING(4889, 4890, 4887),
+		RUNECRAFTING(4267);
+		
+		private int line1, line2, line3, frame;
+
+		StatMessages(int line1, int line2, int frame) {
+			this.line1 = line1;
+			this.line2 = line2;
+			this.frame = frame;
+		}
+		
+		StatMessages(int frame) {
+			this.frame = frame;
+		}
+		
+		public int getLine1() {
+			return line1;
+		}
+
+		public int getLine2() {
+			return line2;
+		}
+
+		public int getLine3() {
+			return line3;
+		}
+
+		public int getFrame() {
+			return frame;
+		}
+	}
+	
+	private boolean messageMatchesPattern(int skill) {
+		return !StatMessages.RANGED.equals(skill)
+				|| !StatMessages.MINING.equals(skill)
+				|| !StatMessages.THIEVING.equals(skill)
+				|| !StatMessages.FARMING.equals(skill);
+	}
+
+	public void sendLevelUpMessage(Player p, int skill) {
+		
+		if (getLevelForExperience(skill) >= 90) {
+			p.getActionSender().sendWorldMessage(NameUtils.formatName(p.getName()) +
+					" has just achieved " + getLevelForExperience(skill) + " " + SKILL_NAME[skill].toLowerCase() + "!");
+		}
+		
+		StatMessages messages = StatMessages.values()[skill];
+
+		String message1 = "Congratulations! You've just advanced a "
+				+ SKILL_NAME[skill].toLowerCase() + " level!";
+		String message2 = "You have now reached level "
+				+ getLevelForExperience(skill) + ".";
+
+		player.getActionSender().sendCloseInterface();
+		player.getActionSender().sendMessage(message1);
+		player.getActionSender().sendMessage(message2);
+		
+		if (!messageMatchesPattern(skill)) {
+			player.getActionSender().sendString(messages.getLine1(), message1);
+			player.getActionSender().sendString(messages.getLine2(), message2);
+		} else {
+			player.getActionSender().sendString((messages.getFrame() + 1),
+					message1);
+			player.getActionSender().sendString((messages.getFrame() + 2),
+					message2);
+		}
+		player.getActionSender().sendChatInterface(messages.getFrame());
+	}
 }

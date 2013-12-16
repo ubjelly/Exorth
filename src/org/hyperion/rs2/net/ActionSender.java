@@ -252,6 +252,18 @@ public class ActionSender {
 	}
 	
 	/**
+	 * Sends a world message.
+	 * @param message The message to send.
+	 * @return The action sender instance, for chaining.
+	 */
+	public ActionSender sendWorldMessage(Object message) {
+		for (Player pz: World.getWorld().getPlayers()){
+		pz.write(new PacketBuilder(253, Type.VARIABLE).putRS2String((String)message).toPacket());
+		}
+		return this;
+	}
+	
+	/**
 	 * Sends the map region load command.
 	 * @return The action sender instance, for chaining.
 	 */
@@ -659,6 +671,18 @@ public class ActionSender {
 		.put((byte)trade).toPacket());
 		return this;
 	}
+	
+	public ActionSender sendCloseInterface() {
+		player.write(new PacketBuilder(219).toPacket());
+		return this;
+	}
+	
+	public ActionSender sendChatInterface(int id) {
+		player.write(new PacketBuilder(164)
+		.putLEShort(id).toPacket());
+		return this;
+	}
+	
 	
 	
 }

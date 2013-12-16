@@ -618,7 +618,23 @@ public class Player extends Entity implements Persistable {
 	public List<Long> getFriends() {
 		return friends;
 	}
-
+	
+	private void setRetaliate(int i){
+		if (i == 1){
+			setAutoRetaliating(true);
+		} else {
+			setAutoRetaliating(false);
+		}
+	}
+	
+	private int getRetaliate() {
+		if (isAutoRetaliating()){
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	
 	@Override
 	public void deserialize(IoBuffer buf) {
 		this.name = NameUtils.formatNameForProtocol(IoBufferUtils.getRS2String(buf));
@@ -630,6 +646,7 @@ public class Player extends Entity implements Persistable {
 		this.spellBook = buf.get();
 		this.prayBook = buf.get();
 		this.health = buf.getShort();
+		this.setRetaliate(buf.getShort());
 		setLocation(Location.create(buf.getUnsignedShort(), buf.getUnsignedShort(), buf.getUnsigned()));
 		
 		int[] look = new int[13];
@@ -699,6 +716,7 @@ public class Player extends Entity implements Persistable {
 		buf.put(spellBook);
 		buf.put(prayBook);
 		buf.putShort((short)health);
+		buf.putShort((short)getRetaliate());
 		buf.putShort((short) getLocation().getX());
 		buf.putShort((short) getLocation().getY());
 		buf.put((byte) getLocation().getZ());

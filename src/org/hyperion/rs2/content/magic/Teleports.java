@@ -3,10 +3,12 @@ package org.hyperion.rs2.content.magic;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.hyperion.rs2.Constants;
 import org.hyperion.rs2.model.Animation;
+import org.hyperion.rs2.model.Graphic;
 import org.hyperion.rs2.model.Location;
 import org.hyperion.rs2.model.Player;
+import org.hyperion.rs2.model.World;
+import org.hyperion.rs2.event.*;
 
 public class Teleports {
 
@@ -14,7 +16,7 @@ public class Teleports {
 	 * Represents modern spellbook teleports.
 	 * @author Stephen
 	 */
-	enum Modern {
+	public enum Modern {
 		
 		/**
 		 * Lubridge teleport.
@@ -24,25 +26,26 @@ public class Teleports {
 		/**
 		 * Varrock teleport.
 		 */
-		VARROCK(1164, 3222, 3218, 0),
+		VARROCK(1164, 3210, 3424, 0),
 		
 		/**
 		 * Falador teleport.
 		 */
-		FALADOR(1170, 3222, 3218, 0),
+		FALADOR(1170, 2964, 3378, 0),
 		
 		/**
 		 * Camelot teleport.
 		 */
-		CAMELOT(1174, 3222, 3218, 0),
+		CAMELOT(1174, 2757, 3477, 0),
 		
 		/**
 		 * Ardougne teleport.
 		 */
-		ARDOUGNE(1540, 3222, 3218, 0),
+		ARDOUGNE(1540, 2662, 3305, 0),
 		
 		/**
 		 * Watchtower teleport.
+		 * No clue what coords are, goes to lumby.
 		 */
 		WATCHTOWER(1541, 3222, 3218, 0);
 		
@@ -77,7 +80,7 @@ public class Teleports {
 		 * @return The teleport, or <code>null</code> if the action button is not a teleport.
 		 */
 		public static Modern forId(int actionButton) {
-			return modernTele.get(actionButton);
+			return modernTele.get((short)actionButton);
 		}
 		
 		/**
@@ -99,8 +102,16 @@ public class Teleports {
 		private Modern(int actionButton, int xPos, int yPos, int height) {
 			this.actionButton = (short) actionButton;
 			this.xPos = (short) xPos;
-			this.yPos = (byte) yPos;
+			this.yPos = (short) yPos;
 			this.height = (short) height;
+		}
+		
+		/**
+		 * Gets the x position.
+		 * @return The x position.
+		 */
+		public int getActionButton() {
+			return actionButton;
 		}
 		
 		/**
@@ -131,23 +142,36 @@ public class Teleports {
 	/**
 	 * The teleport graphic
 	 */
-	private int teleportGraphic = 308;
+	private static int teleportGraphic = 308;
 	
 	/**
 	 * The teleport animation
 	 */
-	private int teleportAnimation = 714;
+	private static int teleportAnimation = 714;
 	
 	/**
 	 * Starts the teleport action.
 	 * @param player The player teleporting.
 	 * @param actionButton The action button.
 	 */
-	public static void startTeleport(Player player, int actionButton) {
+	public static void startTeleport(final Player player, int actionButton) {
 		Modern modernTeleport = Modern.forId(actionButton);
-		Location loc = Location.create(modernTeleport.getXPos(), modernTeleport.getYPos(), modernTeleport.getHeight());
+		final Location loc = Location.create(modernTeleport.getXPos(), modernTeleport.getYPos(), modernTeleport.getHeight());
 
-		player.setTeleportTarget(loc);
+		player.playAnimation(Animation.create(teleportAnimation, 5));
+		World.getWorld().submit(new Event(650) {
+			public void execute() {
+				player.playGraphics(Graphic.create(teleportGraphic, 100 << 16));
+				stop();
+			}
+		});
+		World.getWorld().submit(new Event(1500) {
+			public void execute() {
+				player.setTeleportTarget(loc);
+				player.playAnimation(Animation.create(-1));
+				stop();
+			}
+		});
 	}
 
 }

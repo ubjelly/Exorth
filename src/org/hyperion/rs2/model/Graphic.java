@@ -16,6 +16,8 @@ public class Graphic {
 		return create(id, 0);
 	}
 	
+	public static Graphic LEVEL_UP = Graphic.create(199, 0, 100);
+	
 	/**
 	 * Creates a graphic.
 	 * @param id The id.
@@ -27,13 +29,14 @@ public class Graphic {
 	}
 	
 	/**
-	 * Creates a graphic.
+	 * Creates an graphic with no delay.
 	 * @param id The id.
+	 * @param height the height.
 	 * @param delay The delay.
 	 * @return The new graphic object.
 	 */
-	public static Graphic create(int id, int height, int delay) {
-		return new Graphic(id, delay+height);
+	public static Graphic create(int id, int delay, int height) {
+		return create(id, delay + (65536*height));
 	}
 	
 	/**

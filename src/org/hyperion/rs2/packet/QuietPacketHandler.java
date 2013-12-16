@@ -20,6 +20,9 @@ public class QuietPacketHandler implements PacketHandler {
 				}
 			}
 		}*/
+		if (packet.getOpcode() == 121){
+			player.getActionSender().sendCloseInterface();
+		}
 	}
 
 }

@@ -109,8 +109,8 @@ public class CommandPacketHandler implements PacketHandler {
 				player.getActionSender().sendMessage("Your inventory has been emptied.");
 			} else if(command.startsWith("lvl")) {
 				try {
-					player.getSkills().setLevel(Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-					player.getSkills().setExperience(Integer.parseInt(args[1]), player.getSkills().getXPForLevel(Integer.parseInt(args[2])) + 1);
+					player.getSkills().setLevel(Integer.parseInt(args[1]), Integer.parseInt(args[2])-1);
+					player.getSkills().setExperience(Integer.parseInt(args[1]), player.getSkills().getXPForLevel(Integer.parseInt(args[2])) -1);
 					player.getActionSender().sendMessage(Skills.SKILL_NAME[Integer.parseInt(args[1])] + " level is now " + Integer.parseInt(args[2]) + ".");	
 				} catch(Exception e) {
 					e.printStackTrace();

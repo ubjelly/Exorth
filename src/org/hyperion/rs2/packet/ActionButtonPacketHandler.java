@@ -2,6 +2,8 @@ package org.hyperion.rs2.packet;
 
 import java.util.logging.Logger;
 
+import org.hyperion.rs2.content.magic.Teleports;
+import org.hyperion.rs2.content.magic.Teleports.Modern;
 import org.hyperion.rs2.content.SkillGuides;
 import org.hyperion.rs2.content.combat.CombatCheck;
 import org.hyperion.rs2.content.combat.WeaponInfo;
@@ -33,6 +35,21 @@ public class ActionButtonPacketHandler implements PacketHandler {
 		}
 		switch(button) {
 		
+		/**
+		 * Teleports
+		 */
+		case 1167:
+		case 1164:
+		case 1170:
+		case 1174:
+		case 1540:
+		case 1541:
+			Modern modern = Modern.forId(button);
+			System.out.println("Modern: " + modern);
+			if (modern != null)
+				Teleports.startTeleport(player, modern.getActionButton());
+			break;
+			
 		case 150:
 			player.setAutoRetaliating(true);
 			break;

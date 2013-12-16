@@ -619,7 +619,6 @@ public abstract class Entity {
 			}
 		}
 		//Retaliating.
-		System.out.println("autoretaliating = " + this.isAutoRetaliating);
 		if(this instanceof Player && this.isAutoRetaliating && source != null && this.getLastAttacked() == null
 				|| this instanceof NPC && this.getLastAttacked() == null && source != null) {
 			this.setLastAttack(2);
