@@ -31,7 +31,7 @@ public class Combat {
 		switch(combatType) {
 		
 		case RANGE:
-			//Range.execute(o, opponent);
+			Range.execute(o, opponent);
 			break;
 		
 		case MAGIC:
