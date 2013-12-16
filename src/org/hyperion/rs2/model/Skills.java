@@ -356,6 +356,7 @@ public class Skills {
 			p.getActionSender().sendWorldMessage(NameUtils.formatName(p.getName()) +
 					" has just achieved " + getLevelForExperience(skill) + " " + SKILL_NAME[skill].toLowerCase() + "!");
 		}
+		p.playGraphics(Graphic.LEVEL_UP);
 		
 		StatMessages messages = StatMessages.values()[skill];
 
