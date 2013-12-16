@@ -343,12 +343,6 @@ public class Skills {
 		}
 	}
 	
-	private boolean messageMatchesPattern(int skill) {
-		return StatMessages.RANGED.equals(skill)
-				|| StatMessages.MINING.equals(skill)
-				|| StatMessages.THIEVING.equals(skill)
-				|| StatMessages.FARMING.equals(skill);
-	}
 
 	public void sendLevelUpMessage(Player p, int skill) {
 		
@@ -369,15 +363,15 @@ public class Skills {
 		player.getActionSender().sendMessage(message1);
 		player.getActionSender().sendMessage(message2);
 		
-		if (!messageMatchesPattern(skill)) {
+		if (messages.getLine1() > 0) {
 			player.getActionSender().sendString(messages.getLine1(), message1);
 			player.getActionSender().sendString(messages.getLine2(), message2);
-			System.out.println("test");
 		} else {
 			player.getActionSender().sendString((messages.getFrame() + 1),
 					message1);
 			player.getActionSender().sendString((messages.getFrame() + 2),
 					message2);
+			System.out.println("test");
 		}
 		player.getActionSender().sendChatInterface(messages.getFrame());
 	}
