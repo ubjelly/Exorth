@@ -29,6 +29,15 @@ public class WeaponInfo {
 		return false;
 	}
 	
+	public static boolean isBow(Item i){
+		if (i == null) return false;
+		String name = i.getDefinition().getName().toLowerCase();
+		if (name.contains("bow")){
+			return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * Set the player's attack emote based on the weapon currently Equip and it's attackStyle.
 	 * @param player
@@ -47,28 +56,41 @@ public class WeaponInfo {
 				emote = 1665;
 			}
 			
-			if (item.contains("verac's")){
+			if (item.contains("verac")){
 				emote = 2062;
 			}
 			
-			if (item.contains("dharok's")){
-				switch (player.getFightStyle()){
+			if (item.contains("dharok")){
+				emote = 2067;
+			}
+			
+			if (item.contains("torag")){
+				emote = 2068;
+			}
+			
+			if (item.contains("ahrim")){
+				emote = 2078;
+			}
+						
+			if (item.contains("guthan")){
+				switch(player.getFightStyle()){
 					case 0:
-					case 1:
 					case 3:
-						emote = 2067;
+						emote = 2081;
 						break;
-					case 2:
-						emote = 2066;
+					case 1:
+						emote = 2082;
+						break;
+					case 2: 
+						emote = 2080;
 						break;
 						
 				}
-				System.out.println(emote);
 			}
 					
 			
 			if (item.contains("scimitar") || item.contains("sword") || item.contains("hatchet")
-				|| item.contains("warhammer")){
+				|| item.contains("warhammer") || item.contains("mace") || item.contains("axe")){
 				switch (player.getFightStyle()){
 					case 0:
 					case 1:
@@ -107,7 +129,7 @@ public class WeaponInfo {
 				}
 			}
 			
-			if (isItemTwoHanded(playerWeapon) && !item.contains("dharok's")){
+			if (isItemTwoHanded(playerWeapon) && item.contains("sword")){
 				switch (player.getFightStyle()){
 					case 0:
 					case 3:
@@ -122,6 +144,15 @@ public class WeaponInfo {
 				}
 			}
 			
+			if (item.contains("bow")){
+				emote = 426;
+			}
+			
+			if (item.contains("crossbow")){
+				emote = 427;
+			}
+			
+			
 		} else {
 			switch (player.getFightStyle()){
 				case 0:
@@ -133,6 +164,7 @@ public class WeaponInfo {
 					break;
 			}
 		}
+		player.getActionSender().sendMessage("emote : " + emote);
 		player.setAttackEmote(emote);
 	}
 	
