@@ -34,7 +34,7 @@ public class NPCStyle {
 		private byte styleType;//0 Melee, 1 RANGE, 2 MAGE, 3 DragonFire, 4+ Custom
 		
 		private short max;//short as if on x10, goes ovver Byte size
-		
+				
 		private short anim;
 		
 		private short[] gfx;
@@ -96,7 +96,6 @@ public class NPCStyle {
 	}
 	
 	private short defAnim;
-
 	/**
 	 * @return the npcId
 	 */
@@ -124,7 +123,6 @@ public class NPCStyle {
 			List<NPCStyle> loadedData = (List<NPCStyle>) PersistenceManager.load(new FileInputStream("./data/attack.xml"));
 			for (NPCStyle data : loadedData)
 			{
-				//System.out.println(data.getAtts().length);
 				attacks.put(data.npcId, data);
 			}
 			logger.info("Successfully loaded "+loadedData.size() +" npc Attacks.");

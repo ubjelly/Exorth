@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hyperion.rs2.model.Entity;
 import org.hyperion.rs2.model.FloorItem;
 import org.hyperion.rs2.model.NPC;
 import org.hyperion.rs2.model.Player;
@@ -32,9 +33,10 @@ public class Region {
 	private List<NPC> npcs = new LinkedList<NPC>();
 	
 	/**
-	 * A list of objects in this region.
-	 *
-	private List<GameObject> objects = new LinkedList<GameObject>();
+	 * A list of Entities in this region.
+	 */
+	private List<Entity> entities = new LinkedList<Entity>();
+	
 	
 	/**
 	 * A list of items in this region.
@@ -108,13 +110,11 @@ public class Region {
 			return Collections.unmodifiableCollection(new LinkedList<NPC>(npcs));
 		}
 	}
-	
-	/**
-	 * Gets the list of objects.
-	 * @return The list of objects.
-	 *
-	public Collection<GameObject> getGameObjects() {
-		return objects;
+
+	public Collection<Entity> getEntities() {
+		synchronized(this) {
+			return Collections.unmodifiableCollection(new LinkedList<Entity>(entities));
+		}
 	}
 
 	/**

@@ -176,6 +176,42 @@ public class Location {
 		return z << 30 | x << 15 | y;
 	}
 	
+	   /**
+	    * Gets the closest spot from a list of locations.
+	    * @param steps The list of steps.
+	    * @param location The location we want to be close to.
+	    * @return The closest location.
+	    */
+		public static Location getClosestSpot(Location target, Location[] steps) {
+			Location closestStep = null;
+			for (Location p : steps) {
+				if (closestStep == null || (getDistanceFromLocation(closestStep, target) > getDistanceFromLocation(p, target))) {
+					// if (RS2RegionLoader.positionIsWalkalble(e, p.getX(),
+					// p.getY())) {
+					// System.out.println("Setting walkable pos..");
+					closestStep = p;
+					// }
+				}
+			}
+			return closestStep;
+		}
+		
+	/**
+	 * Gets a list of all the valid spots around another location, within a specific "size/range".
+	 * @param size The size/range.
+	 * @param location The location we want to get locations within range from.
+	 */
+	public static Location[] getValidSpots(int size, Location location) {
+		Location[] list = new Location[size * 4];
+		int index = 0;
+		for(int i = 0; i < size; i++) {
+			list[index++] = (new Location(location.getX() - 1, location.getY() + i, location.getZ()));
+			list[index++] = (new Location(location.getX() + i, location.getY() - 1, location.getZ()));
+			list[index++] = (new Location(location.getX() + i, location.getY() + size, location.getZ()));
+			list[index++] = (new Location(location.getX() + size, location.getY() + i, location.getZ()));
+		}
+		return list;
+	}
 	/**
 	 * Gets the distance from a point.
 	 * @param other The target.
@@ -188,6 +224,9 @@ public class Location {
    		int pointY = other.getY();
 		return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
     }
+	public static double getDistanceFromLocation(Location p, Location p2) {
+		 return Math.sqrt((p2.getX()-p.getX())*(p2.getX()-p.getX()) + (p2.getY()-p.getY())*(p2.getY()-p.getY()));
+	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -214,4 +253,31 @@ public class Location {
 		return Location.create(x + diffX, y + diffY, z + diffZ);
 	}
 
+	
+	/**
+	 * Checks if we're in a specific arena based on location objects.
+	 * @param minLocation The min location to check.
+	 * @param maxLocation The max location to check.
+	 * @return True if we're in the area, false it not.
+	 */
+	public boolean isInArea(Location minLocation, Location maxLocation) {
+		return isInArea(x, y, z, minLocation.getX(), minLocation.getY(), minLocation.getZ(), maxLocation.getX(), maxLocation.getY(), maxLocation.getZ());
+	}
+
+	/**
+	 * Checks if we're in a specific arena based on simple coordinates.
+	 * @param minX The minimum x coordinate.
+	 * @param minY The minimum y coordinate.
+	 * @param minHeight the minimum height.
+	 * @param maxX The maximum x coordinate.
+	 * @param maxY The maximum y coordinate.
+	 * @param maxHeight The maximum height.
+	 * @return True if we're in the area, false it not.
+	 */
+	public static boolean isInArea(int x, int y, int z, int minX, int minY, int minHeight, int maxX, int maxY, int maxHeight) {
+		if(z != minHeight || z != maxHeight) {
+			return false;
+		}
+		return (x >= minX && y >= minY) && (x <= maxX && y <= maxY);
+	}
 }

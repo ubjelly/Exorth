@@ -1,6 +1,5 @@
 package org.hyperion.rs2.content.combat;
 
-import org.hyperion.rs2.Constants;
 import org.hyperion.rs2.model.Entity;
 import org.hyperion.rs2.model.Location;
 import org.hyperion.rs2.model.NPC;
@@ -13,17 +12,13 @@ import org.hyperion.rs2.model.Player;
  */
 public class CombatCheck {
 
-	/**
-	 * Checks the position of the Entity.
-	 * @param e The checking entity.
-	 * @return If valid to continue.
-	 */
 	public static boolean correctAttributes(Entity e, Entity ot) {
 		if(ot.isDead() || ot.getHealth() <= 0 || ot.isTeleporting() || ot instanceof NPC && ((NPC)ot).isInvisible()//Session check should be changed.
 				|| ot instanceof Player && !((Player)ot).getSession().isConnected()) {//spell will continue if the attack is dead.
 			CombatCheck.endCombat(e);
 			return false;
 		}
+		
 		//Check your state.
 		if(e.getLastAttacked() != null && e.getLastAttacked() != ot && !isInMultiZone(e.getLocation())
 				|| e.getLastAttacked() != null && e.getLastAttacked() != ot && !isInMultiZone(ot.getLocation())) {

@@ -3,6 +3,7 @@ package org.hyperion.rs2.content.combat.impl;
 import org.hyperion.Server;
 import org.hyperion.rs2.Constants;
 import org.hyperion.rs2.content.Bonus;
+import org.hyperion.rs2.content.NPCBonus;
 import org.hyperion.rs2.content.NPCStyle;
 import org.hyperion.rs2.content.Projectile;
 import org.hyperion.rs2.content.ProjectileManager;
@@ -235,9 +236,12 @@ public class Magic {
 			
 			atk += (int) ((mageLv * 0.67) + (mageAtt * 0.63) + (mageAtt * mageLv / 1000));
 		}
+		if (e instanceof NPC){
+			NPC n = (NPC)e;
+			atk = (int) NPCBonus.bonuses.get(((NPC)n).getId()).getBonuses()[n.getFightIndex()].getMagicAttackBonus();
+		}
 		//Opponent distribution
 		if(k instanceof Player) {
-			System.out.println("incoming hit");
 			Player d = (Player)k;
 			int defLv = d.getSkills().getLevel(Skills.DEFENCE);
 			int mageLv = d.getSkills().getLevel(Skills.MAGIC);
@@ -255,6 +259,11 @@ public class Magic {
 			defLv *= 0.3;
 			mageLv *= 0.7;
 			def += ((defLv + mageLv) * 0.67) + (mageDef * 0.77);
+		}
+		if (k instanceof NPC){
+			NPC n = (NPC)k;
+			def = (int) NPCBonus.bonuses.get(((NPC)n).getId()).getBonuses()[n.getFightIndex()].getMagicDefenceBonus();
+			System.out.println("magic defencebonus: " + def);
 		}
 		return CombatCheck.random(def) <= CombatCheck.random(atk);
 	}

@@ -17,6 +17,7 @@ import org.hyperion.rs2.WorldLoader;
 import org.hyperion.rs2.WorldLoader.LoginResult;
 import org.hyperion.rs2.content.DegradeSystem;
 import org.hyperion.rs2.content.MobSpawn;
+import org.hyperion.rs2.content.NPCBonus;
 import org.hyperion.rs2.content.NPCStyle;
 import org.hyperion.rs2.content.ProjectileManager;
 import org.hyperion.rs2.content.combat.CombatCheck;
@@ -32,6 +33,7 @@ import org.hyperion.rs2.login.LoginServerConnector;
 import org.hyperion.rs2.login.LoginServerWorldLoader;
 import org.hyperion.rs2.model.container.Shops;
 import org.hyperion.rs2.model.container.Trade;
+import org.hyperion.rs2.model.region.RegionManager;
 import org.hyperion.rs2.net.PacketBuilder;
 import org.hyperion.rs2.net.PacketManager;
 import org.hyperion.rs2.packet.PacketHandler;
@@ -121,6 +123,11 @@ public class World {
 	private LoginServerConnector connector;
 	
 	/**
+	 * The region manager.
+	 */
+	private RegionManager regionManager = new RegionManager();
+	
+	/**
 	 * Creates the world and begins background loading tasks.
 	 */
 	public World() {
@@ -136,6 +143,7 @@ public class World {
 			public Object call() throws Exception {
 				NPCDefinition.load();
 				NPCStyle.init();
+				NPCBonus.init();
 				return null;
 			}
 		});
@@ -177,6 +185,14 @@ public class World {
 	 */
 	public BlockingExecutorService getBackgroundLoader() {
 		return backgroundLoader;
+	}
+	
+	/**
+	 * Gets the region manager.
+	 * @return The region manager.
+	 */
+	public RegionManager getRegionManager() {
+		return regionManager;
 	}
 	
 	/**

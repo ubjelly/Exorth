@@ -5,12 +5,29 @@
 		<atts>
 			<style>
 				<styleType>0</styleType>
-				<max>1</max>
+				<max>8</max>
 				<anim>422</anim>
 				<gfx>
 					<short>-1</short>
 					<short>-1</short>
 					<short>-1</short>
+				</gfx>
+				<speed>5</speed>
+			</style>
+		</atts>
+	</attack>
+	<attack>
+		<npcId>27</npcId>
+		<defAnim>404</defAnim>
+		<atts>
+			<style>
+				<styleType>1</styleType>
+				<max>8</max>
+				<anim>426</anim>
+				<gfx>
+					<short>10</short>
+					<short>10</short>
+					<short>10</short>
 				</gfx>
 				<speed>5</speed>
 			</style>

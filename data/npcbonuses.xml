@@ -1,0 +1,30 @@
+<list>
+	<bonusList>
+		<npcId>1</npcId>
+		<bonus>
+			<bonuses>
+				<meleeAtt>3</meleeAtt>
+				<rangedAtt>1000</rangedAtt>
+				<magicAtt>25</magicAtt>
+				
+				<meleeDef>0</meleeDef>
+				<rangedDef>0</rangedDef>
+				<magicDef>25</magicDef>
+			</bonuses>
+		</bonus>
+	</bonusList>
+	<bonusList>
+		<npcId>27</npcId>
+		<bonus>
+			<bonuses>
+				<meleeAtt>3</meleeAtt>
+				<rangedAtt>1000</rangedAtt>
+				<magicAtt>25</magicAtt>
+				
+				<meleeDef>0</meleeDef>
+				<rangedDef>0</rangedDef>
+				<magicDef>25</magicDef>
+			</bonuses>
+		</bonus>
+	</bonusList>
+</list>

@@ -3,6 +3,7 @@ package org.hyperion.rs2.content.combat.impl;
 import org.hyperion.rs2.Constants;
 import org.hyperion.rs2.content.Bonus;
 import org.hyperion.rs2.content.DegradeSystem;
+import org.hyperion.rs2.content.NPCBonus;
 import org.hyperion.rs2.content.NPCStyle;
 import org.hyperion.rs2.content.Poison;
 import org.hyperion.rs2.content.Projectile;
@@ -62,11 +63,10 @@ public class Range {
 		atker.setCurrentTarget(victim);
 		
 		//Ammo (Can be disregarded in some cases).
-		final int ammo = atker instanceof NPC || ((Player)atker).getEquipment().isSlotFree(Equipment.SLOT_ARROWS) ? -1 : ((Player)atker).getEquipment().get(Equipment.SLOT_ARROWS).getId();
+		final int ammo = atker instanceof NPC || ((Player)atker).getEquipment().isSlotFree(Equipment.SLOT_ARROWS) ? 882 : ((Player)atker).getEquipment().get(Equipment.SLOT_ARROWS).getId();
 		
 		//bow being used(Can Also be ammo).
-		final int bow = atker instanceof NPC || ((Player)atker).getEquipment().isSlotFree(Equipment.SLOT_WEAPON) ? -1 : ((Player)atker).getEquipment().get(Equipment.SLOT_WEAPON).getId();
-		
+		final int bow = atker instanceof NPC || ((Player)atker).getEquipment().isSlotFree(Equipment.SLOT_WEAPON) ? 841 : ((Player)atker).getEquipment().get(Equipment.SLOT_WEAPON).getId();
 		//Is using arrows or hand projectiles.
 		final boolean useAmmo = isUsingAmmo(bow);
 		
@@ -124,7 +124,7 @@ public class Range {
 			ProjectileManager.createProjectile(atker, victim, p);
 		
 		//Delays *Thanks to Maxi*
-		double splatDelay = p.getDelay() + p.getSlowness() + (atker.getLocation().getDistanceFromLocation(victim.getLocation())-1) * 5;
+		double splatDelay = /*p.getDelay() + p.getSlowness() + (atker.getLocation().getDistanceFromLocation(victim.getLocation())-1) * 5*/ 7;
 		final int delay = (int) Math.ceil((splatDelay * 12d) / 600d);
 		
 		//defend emote.
@@ -231,6 +231,12 @@ public class Range {
 			atk = cLv * (1 + bonus / 64);
 		} else {
 			
+		}
+		
+		if (e instanceof NPC){
+			NPC p = (NPC)e;
+			atk = (int) NPCBonus.bonuses.get(((NPC)p).getId()).getBonuses()[p.getFightIndex()].getRangedAttackBonus();
+			System.out.println("ranged attackbonus: " + atk);
 		}
 		
 		if(o instanceof Player) {

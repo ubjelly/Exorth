@@ -31,7 +31,7 @@ public class NPCDefApp extends SingleFrameApplication {
      * Windows shown in our application come fully initialized from the GUI
      * builder, so this additional configuration is not needed.
      */
-    @Override protected void configureWindow(java.awt.Window root) {
+    protected void configureWindow(java.awt.Window root) {
     }
 
     /**

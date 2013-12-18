@@ -36,6 +36,7 @@ public abstract class NPC extends Entity {
 		this.origin = Entity.DEFAULT_LOCATION;
 		this.setLocation(origin);
 	}
+
 	
 	/**
 	 * Creates the NPC with the specified definition.
@@ -260,5 +261,6 @@ public abstract class NPC extends Entity {
 	public boolean isSummoned() {
 		return master != null;
 	}
+	
 
 }

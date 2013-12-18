@@ -288,6 +288,30 @@ public abstract class Entity {
 	public boolean isDead() {
 		return isDead;
 	}
+	
+	/**
+	 * Defines if this entity can walk.
+	 */
+	private boolean canWalk = true;
+
+	/**
+	 * Sets the can walk boolean.
+	 * @param b <code>true</code> if we can walk, <code>false</code> if not.
+	 */
+	public void setCanWalk(boolean b) {
+		if(!b) {
+			this.getWalkingQueue().reset();
+		}
+		canWalk = b;		
+	}
+	
+	/**
+	 * Defines if the player can walk.
+	 * @return <code>true</code> if, <code>false</code> if not.
+	 */
+	public boolean canWalk() {
+		return canWalk;
+	}
 
 	/**
 	 * Makes this entity face a location.
@@ -867,5 +891,17 @@ public abstract class Entity {
 	 */
 	public ResetTask getResetTask() {
 		return resetTask;
+	}
+	
+	
+	private Location minLocation = null;
+	private Location maxLocation = null;
+	
+	public boolean canWalkToArea(Location loc) {
+		if(minLocation != null && maxLocation != null) {
+			return loc.isInArea(minLocation, maxLocation);
+		} else {
+			return false;
+		}
 	}
 }

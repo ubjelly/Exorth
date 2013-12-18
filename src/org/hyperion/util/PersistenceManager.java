@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.hyperion.rs2.content.DegradeSystem;
+import org.hyperion.rs2.content.NPCBonus;
+import org.hyperion.rs2.content.NPCBonus.Bonuses;
 import org.hyperion.rs2.content.NPCStyle;
 import org.hyperion.rs2.content.Projectile;
 import org.hyperion.rs2.content.NPCStyle.Style;
@@ -26,6 +28,8 @@ public class PersistenceManager {
 		xstream.alias("proj", Projectile.class);
 		xstream.alias("attack", NPCStyle.class);
 		xstream.alias("style", Style.class);
+		xstream.alias("bonusList", NPCBonus.class);
+		xstream.alias("bonuses", Bonuses.class);
 	}
 	
 	public static void save(Object object, OutputStream out) {

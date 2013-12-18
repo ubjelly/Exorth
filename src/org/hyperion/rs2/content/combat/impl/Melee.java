@@ -3,6 +3,7 @@ package org.hyperion.rs2.content.combat.impl;
 import org.hyperion.rs2.Constants;
 import org.hyperion.rs2.content.Bonus;
 import org.hyperion.rs2.content.DegradeSystem;
+import org.hyperion.rs2.content.NPCBonus;
 import org.hyperion.rs2.content.NPCStyle;
 import org.hyperion.rs2.content.Poison;
 import org.hyperion.rs2.content.combat.Combat;
@@ -24,7 +25,11 @@ import org.hyperion.rs2.model.container.Equipment;
 import org.hyperion.rs2.tick.Tick;
 
 public class Melee {
-
+	/**
+	 * The attempts of walking towards an entity outside of an NPCs min/max location.
+	 * Please notice, this is only used for NPCs.
+	 */
+	private static int attempts = 0;
 	/**
 	 * Executes melee combat.
 	 * @param atker The attacking entity,
@@ -44,8 +49,21 @@ public class Melee {
 		//distance check
 		if(!atker.getLocation().withinRange(victim.getLocation(), 1)) {
 			//follow
-			return;
+			atker.getWalkingQueue().addStep(victim.getLocation().getX(), victim.getLocation().getY() -1);
+			if(attempts++ > 10) {
+				CombatCheck.endCombat(atker);
+				atker.getWalkingQueue().reset();
+				attempts = 0;
+			}			return;
+		} else {
+			attempts = 0;
+			atker.getWalkingQueue().reset();
+			if (victim.isAutoRetaliating()){
+				victim.setCurrentTarget(atker);
+				victim.setInteractingEntity(atker);
+			}
 		}
+
 		
 		//delay
 		if(atker.getLastAttack() > 0) return;
@@ -72,7 +90,6 @@ public class Melee {
 		
 		//Get max hit of entity.
 		int max = s == null ? maxDamage(atker, victim, specOn) : s.getAtts()[atker.getFightIndex()].getMax();
-
 		//animation
 		//TODO special emotes.
 		int emote = s == null ? ((Player)atker).getAttackEmote() : s.getAtts()[atker.getFightIndex()].getAnim();
@@ -173,6 +190,11 @@ public class Melee {
 			else if(p.getFightStyle() == WeaponStyle.STYLE_CONTROLLED)
 				effectiveAccuracy += 1;
 			atk = (int) (effectiveAccuracy * (1 + bonus/64)) * 10;
+		}
+		if (e instanceof NPC){
+			NPC p = (NPC)e;
+			atk = (int) NPCBonus.bonuses.get(((NPC)p).getId()).getBonuses()[p.getFightIndex()].getMeleeAttackBonus();
+			System.out.println("melee attackbonus: " + atk);
 		}
 		if(o instanceof Player) {
 			Player p = (Player)o;

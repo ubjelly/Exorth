@@ -11,8 +11,8 @@ http://svn.assembla.com/svn/hyperion_server
 276
 Graham
 has-props
-
-
+has-prop-mods
+svn:special svn:externals svn:needs-lock
 
 
 
@@ -25,9 +25,6 @@ has-props
 
 
 c48d7634-943c-464e-a392-e2f9434beeda
-
-test
-dir
 
 .classpath
 file
@@ -63,40 +60,6 @@ graham
 
 977
 
-LICENSE.TXT
-file
-
-
-
-
-2011-06-29T00:01:45.000000Z
-74c618a3f57a9329ce3b839993fa4d0e
-2009-10-09T17:56:03.586620Z
-270
-graham
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1222
-
 .project
 file
 
@@ -131,13 +94,78 @@ graham
 
 379
 
-lib
-dir
+LICENSE.TXT
+file
+
+
+
+
+2011-06-29T00:01:45.000000Z
+74c618a3f57a9329ce3b839993fa4d0e
+2009-10-09T17:56:03.586620Z
+270
+graham
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1222
 
-src
-dir
+build.xml
+file
+
+
+
+
+2011-06-29T00:01:45.000000Z
+a5b7da80d110e63087ddfd404115afbd
+2009-10-05T18:29:56.197101Z
+263
+graham
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1212
 
 data
+dir
+
+lib
 dir
 
 run.bat
@@ -174,40 +202,12 @@ graham
 
 208
 
-web
+src
 dir
 
-build.xml
-file
-
-
-
-
-2011-06-29T00:01:45.000000Z
-a5b7da80d110e63087ddfd404115afbd
-2009-10-05T18:29:56.197101Z
-263
-graham
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1212
+test
+dir
+
+web
+dir
 
